@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     ANTHROPIC_API_KEY: str = ""
 
     # ── Models ───────────────────────────────────────────
-    NLI_MODEL: str = "cross-encoder/nli-deberta-v3-base"
+    NLI_MODEL: str = "cross-encoder/nli-distilroberta-base"
     EMBEDDER_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
 
     # ── Pipeline Config ──────────────────────────────────
