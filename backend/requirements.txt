@@ -6,7 +6,7 @@ sqlalchemy==2.0.30
 psycopg2-binary==2.9.9
 anthropic==0.28.0
 sentence-transformers==2.7.0
-faiss-cpu==1.7.4
+faiss-cpu==1.7.4.post2
 transformers==4.41.2
 torch==2.4.1+cpu
 numpy==1.26.4
