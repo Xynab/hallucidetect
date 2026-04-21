@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #080810;
+    color: #e2e2f0;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection { background: rgba(108, 92, 231, 0.35); color: #fff; }
+}
+
+/* ─── Annotated response highlights ─────────────────────────── */
+.annotated-text mark.highlight-supported {
+  background: rgba(52, 211, 153, 0.13);
+  border-bottom: 2px solid rgba(52, 211, 153, 0.6);
+  border-radius: 3px;
+  padding: 0 2px;
+  color: #6ee7b7;
+}
+.annotated-text mark.highlight-unsupported {
+  background: rgba(248, 113, 113, 0.13);
+  border-bottom: 2px solid rgba(248, 113, 113, 0.6);
+  border-radius: 3px;
+  padding: 0 2px;
+  color: #fca5a5;
+}
+.annotated-text mark.highlight-insufficient {
+  background: rgba(251, 191, 36, 0.1);
+  border-bottom: 2px solid rgba(251, 191, 36, 0.5);
+  border-radius: 3px;
+  padding: 0 2px;
+  color: #fde68a;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(108,92,231,0.3); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(108,92,231,0.55); }
+
+/* ─── Input base ─────────────────────────────────────────────── */
+input, textarea {
+  background: #13131f !important;
+  color: #e2e2f0 !important;
+  border-color: rgba(108,92,231,0.18) !important;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+input::placeholder, textarea::placeholder { color: #3d3d5c !important; }
+input:focus, textarea:focus {
+  outline: none !important;
+  border-color: rgba(108,92,231,0.5) !important;
+  box-shadow: 0 0 0 3px rgba(108,92,231,0.12) !important;
+}
+
+/* ─── Keyframes ──────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes pulse-dot {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%     { opacity:0.5; transform:scale(0.85); }
+}
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to   { background-position:  200% 0; }
+}
+
+.anim-fade-up  { animation: fadeUp  0.5s cubic-bezier(0.16,1,0.3,1) both; }
+.anim-fade-in  { animation: fadeIn  0.35s ease both; }
+.anim-spin     { animation: spin    0.75s linear infinite; }
+
+.d1 { animation-delay: 0.04s; }
+.d2 { animation-delay: 0.09s; }
+.d3 { animation-delay: 0.14s; }
+.d4 { animation-delay: 0.20s; }
+.d5 { animation-delay: 0.28s; }

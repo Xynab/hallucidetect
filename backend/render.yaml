@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: hallucidetect-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: NLI_MODEL
+        value: cross-encoder/nli-deberta-v3-base
+      - key: EMBEDDER_MODEL
+        value: sentence-transformers/all-MiniLM-L6-v2
+      - key: CORS_ORIGINS
+        value: '["https://hallucidetect-frontend.onrender.com"]'
+
+  - type: web
+    name: hallucidetect-frontend
+    runtime: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npx serve -s dist -l $PORT
+    envVars:
+      - key: VITE_API_URL
+        value: https://hallucidetect-backend.onrender.com
