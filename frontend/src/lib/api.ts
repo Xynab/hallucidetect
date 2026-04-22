@@ -1,13 +1,10 @@
 import axios from 'axios';
 import type { AnalysisRequest, AnalysisResult, Example } from '../types';
 
-// Fix: use type-safe bypass for Vercel build
-const env = (import.meta as any).env;
-
-// In production, VITE_API_URL points to backend.
+// In production, VITE_API_URL points to Render backend.
 // In dev, empty string uses Vite proxy.
-const BASE_URL = env?.VITE_API_URL
-  ? `${env.VITE_API_URL}/api/v1`
+const BASE_URL = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api/v1`
   : '/api/v1';
 
 const api = axios.create({
@@ -38,4 +35,4 @@ export async function checkHealth(): Promise<boolean> {
   } catch {
     return false;
   }
-  }
+}
