@@ -1,6 +1,7 @@
 from pydantic_settings import BaseSettings
 from functools import lru_cache
 from typing import List
+import json
 
 
 class Settings(BaseSettings):
@@ -9,8 +10,6 @@ class Settings(BaseSettings):
     DEBUG: bool = False
 
     ANTHROPIC_API_KEY: str = ""
-
-    # Lighter models for free tier (fit in 512MB)
     NLI_MODEL: str = "cross-encoder/nli-MiniLM2-L6-H768"
     EMBEDDER_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
 
@@ -20,11 +19,18 @@ class Settings(BaseSettings):
 
     DATABASE_URL: str = ""
 
-    CORS_ORIGINS: List[str] = [
-        "http://localhost:5173",
-        "http://localhost:3000",
-        "http://127.0.0.1:5173",
-    ]
+    # Accept both JSON string and list
+    CORS_ORIGINS: str = '["http://localhost:5173","http://localhost:3000"]'
+
+    def get_cors_origins(self) -> List[str]:
+        try:
+            parsed = json.loads(self.CORS_ORIGINS)
+            if isinstance(parsed, list):
+                return parsed
+        except Exception:
+            pass
+        # fallback: comma-separated string
+        return [o.strip() for o in self.CORS_ORIGINS.split(",") if o.strip()]
 
     class Config:
         env_file = ".env"
