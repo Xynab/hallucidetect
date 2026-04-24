@@ -11,6 +11,14 @@ from app.api.routes.upload import router as upload_router
 
 settings = get_settings()
 
+# Hardcoded CORS — works regardless of env var
+CORS_ORIGINS = [
+    "https://hallucidetect.vercel.app",
+    "https://hallucidetect-git-main-zainabansari8686-5152s-projects.vercel.app",
+    "http://localhost:5173",
+    "http://localhost:3000",
+]
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -30,26 +38,19 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
-    description=(
-        "LLM Hallucination Detection API — "
-        "claim extraction · FAISS retrieval · DeBERTa NLI scoring · span attribution"
-    ),
+    description="LLM Hallucination Detection API",
     lifespan=lifespan,
 )
 
-# ── CORS ─────────────────────────────────────
-cors_origins = settings.get_cors_origins()
-logger.info(f"CORS origins: {cors_origins}")
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=cors_origins,
+    allow_origins=CORS_ORIGINS,
+    allow_origin_regex="https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ── Routes ───────────────────────────────────
 app.include_router(health.router,   prefix="/api/v1", tags=["health"])
 app.include_router(analyze.router,  prefix="/api/v1", tags=["analysis"])
 app.include_router(examples.router, prefix="/api/v1", tags=["examples"])
@@ -65,4 +66,5 @@ async def root():
         "version": settings.APP_VERSION,
         "docs": "/docs",
         "health": "/api/v1/health",
-}
+    }
+    
